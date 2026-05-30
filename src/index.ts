@@ -5,6 +5,8 @@ import cors from "cors";
 import helmet from "helmet";
 import authRouter from "./modules/auth/auth.routes";
 import sourcesRouter from "./modules/sources/sources.routes";
+import './modules/ingestion/ingestion.worker'
+import ragRouter from "./modules/rag/rag.routes";
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.get("/health", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/sources", sourcesRouter);
+app.use("/rag", ragRouter);
 
 app.use(errorHandler);
 app.listen(env.PORT, () => {
