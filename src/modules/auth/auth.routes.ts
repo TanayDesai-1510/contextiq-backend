@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { register, login } from "./auth.service";
+import { validate } from "../../lib/validate";
+import { loginSchema, registerSchema } from "./auth.validation";
 
 const router = Router();
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", validate(registerSchema), async (req, res, next) => {
   const { email, password, workspaceName } = req.body;
   try {
     const user = await register(email, password, workspaceName);
@@ -13,7 +15,7 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", validate(loginSchema), async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const user = await login(email, password);

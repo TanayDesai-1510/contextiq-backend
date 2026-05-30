@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { verifyJWT } from "../auth/auth.middleware";
 import { createSource, getSources, getSourceById } from "./sources.service";
+import { validate } from "../../lib/validate";
+import { createSourceSchema } from "./sources.validation";
 
 const router = Router();
 
-router.post("/", verifyJWT, async (req, res, next) => {
+router.post("/", verifyJWT, validate(createSourceSchema), async (req, res, next) => {
   const { owner, repo, branch } = req.body;
   try {
     const source = await createSource(
