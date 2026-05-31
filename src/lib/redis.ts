@@ -1,12 +1,6 @@
 import { Redis } from "ioredis";
-import { env } from "../config/env";
 
-export const redis = new Redis(env.REDIS_URL);
+export const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
 
-redis.on("connect", () => {
-  console.log("connected to redis");
-});
-
-redis.on("error", (err) => {
-  console.error("Redis error:", err.message);
-});
+redis.on("connect", () => console.log("connected to redis"));
+redis.on("error", (err) => console.error("Redis error:", err.message));
